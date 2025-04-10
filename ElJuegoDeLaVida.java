@@ -1,38 +1,38 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package daw;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author contrasenainvitado
  */
 public class ElJuegoDeLaVida {
-private List<Integer> celulasVivasRondas = new ArrayList<>();
-       private Tablero tablero;
-       private DimensionesTablero dimensiones;
-       private int generacion;
 
-       
-       //Resuemn de porque se crea un constructor algo diferente
-       //Es para crear todo desde esta clase, esto da como ventaja legilibilidad y 
-       //poder crear el tablero con todas las restrcciones ya tomadas en cuenta
-     public ElJuegoDeLaVida(int tamaño) {
+    private List<Integer> celulasVivasRondas = new ArrayList<>();
+    private Tablero tablero;
+    private DimensionesTablero dimensiones;
+    private int generacion;
+
+    //Resuemn de porque se crea un constructor algo diferente
+    //Es para crear todo desde esta clase, esto da como ventaja legilibilidad y 
+    //poder crear el tablero con todas las restrcciones ya tomadas en cuenta
+    public ElJuegoDeLaVida(int tamaño) {
         this.dimensiones = new DimensionesTablero(tamaño);
         //con esta clase validamos el tamaño
         this.tablero = new Tablero(dimensiones);
         //con esta clase iniciamos el tablero ya con el tamaño validado
         this.generacion = 1;//Con esto siempre iniciamos la generacion en 1
     }
-    
-  
+
 //         public static int opcionesMenu(){
 //           Scanner teclado = new Scanner(System.in);
 //            System.out.println("¿Que desea hacer?");
@@ -43,8 +43,25 @@ private List<Integer> celulasVivasRondas = new ArrayList<>();
 //            return teclado.nextInt();   
 //            
 //        }
-         
-          public void iniciarJuego() {
+
+    public void setCelulasVivasRondas(List<Integer> celulasVivasRondas) {
+        this.celulasVivasRondas = celulasVivasRondas;
+    }
+
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
+    }
+
+    public void setDimensiones(DimensionesTablero dimensiones) {
+        this.dimensiones = dimensiones;
+    }
+
+    public void setGeneracion(int generacion) {
+        this.generacion = generacion;
+    }
+    
+    
+    public void iniciarJuego() {
         String opcionStr = JOptionPane.showInputDialog("¿Cómo quieres inicializar el tablero?\n1. Aleatorio\n2. Manual");
         int opcion = Integer.parseInt(opcionStr);
 
@@ -60,14 +77,14 @@ private List<Integer> celulasVivasRondas = new ArrayList<>();
             tablero.mostrarTablero();
             System.out.println("Generación: " + generacion);
             System.out.println("Células vivas: " + tablero.contarCeldasVivas());
-            
-            String opcionUsuarioStr = JOptionPane.showInputDialog("¿Quieres continuar?\n1. Siguiente generación\n2. Terminar.");
+
+            String opcionUsuarioStr = JOptionPane.showInputDialog("¿Quieres continuar?\n1. Siguiente generación\n2. Terminar.\n3. Guardar.");
             int opcionUsuario = Integer.parseInt(opcionUsuarioStr);
-            
-           if (opcionUsuario == 2) {
+
+            if (opcionUsuario == 2) {
                 JOptionPane.showMessageDialog(null, "Gracias por jugar. ¡Hasta la próxima!", "Despedida", JOptionPane.INFORMATION_MESSAGE);
                 break;
-            } 
+            }
             if (opcionUsuario == 3) {
                 guardarJuego();
             } else {
@@ -76,9 +93,7 @@ private List<Integer> celulasVivasRondas = new ArrayList<>();
         }
     }
 
-    
-          
-          public void actualizarGeneracion() {
+    public void actualizarGeneracion() {
         boolean[][] nuevoEstado = new boolean[dimensiones.obtenerDimension()][dimensiones.obtenerDimension()];
         for (int i = 0; i < dimensiones.obtenerDimension(); i++) {
             for (int j = 0; j < dimensiones.obtenerDimension(); j++) {
@@ -90,12 +105,12 @@ private List<Integer> celulasVivasRondas = new ArrayList<>();
                 }
             }
         }
-         tablero.setTablero(nuevoEstado);
+        tablero.setTablero(nuevoEstado);
         generacion++;
         celulasVivasRondas.add(tablero.contarCeldasVivas());
     }
-          
-           public void guardarJuego() {
+
+    public void guardarJuego() {
         String nombreArchivo = JOptionPane.showInputDialog("Introduce el nombre del archivo para guardar (sin extensión):");
         if (nombreArchivo != null && !nombreArchivo.trim().isEmpty()) {
             try {
@@ -106,21 +121,5 @@ private List<Integer> celulasVivasRondas = new ArrayList<>();
             }
         }
     }
-           
-            public void cargarJuego() {
-        String nombreArchivo = JOptionPane.showInputDialog("Introduce el nombre del archivo para cargar (sin extensión):");
-        if (nombreArchivo != null && !nombreArchivo.trim().isEmpty()) {
-            CargarJuego.JuegoCargado juegoCargado = CargarJuego.JuegoCargado.cargarPartida(nombreArchivo);
-            if (juegoCargado != null) {
-                this.tablero = juegoCargado.tablero;
-                this.generacion = juegoCargado.numeroGeneracion;
-                this.celulasVivasRondas = juegoCargado.celulasVivasRondas;
-                JOptionPane.showMessageDialog(null, "Partida cargada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al cargar la partida.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
 }
-
-   
+    

@@ -20,14 +20,20 @@ import javax.swing.JOptionPane;
 
 public class GuardarJuego {
     public static void guardarEstadoJuego(Tablero tablero, int numeroGeneracion, List<Integer> celulasVivasRondas) {
+        
+        String directorio = "/home/yoriel/Documentos/pogamacion";
         String nombreArchivo = JOptionPane.showInputDialog("Introduce el nombre del archivo para guardar (sin extensión):");
+       
+        //Verificar que el cambio es correcto
         if (nombreArchivo == null || nombreArchivo.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "No se ha proporcionado un nombre válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+         String rutaCompleta = directorio + "/" + nombreArchivo + ".txt";
 
         // Esta línea abre un archivo de texto para escritura
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo + ".txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaCompleta))) {
             int n = tablero.obtenerDimension();  // Suponiendo que tienes un método para obtener la dimensión del tablero
 
             // Guardar dimensiones del tablero
