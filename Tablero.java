@@ -45,6 +45,10 @@ public class Tablero {
     public DimensionesTablero getDimensiones() {
         return dimensiones;
     }
+        // Método para obtener la dimensión del tablero
+    public int obtenerDimension() {
+        return dimensiones.obtenerDimension();  // Esto devuelve el tamaño del tablero
+    }
 
     public void inicializarManual() {
 
@@ -59,7 +63,7 @@ public class Tablero {
             int numFila = Integer.parseInt(fila);
 
             String columna = JOptionPane.showInputDialog("Añada la columna entre 0 y " + (dimensiones.obtenerDimension() - 1) + "): ");
-            int numColumna = Integer.parseInt(fila);
+            int numColumna = Integer.parseInt(columna);
 
             if (numFila >= 0 && numFila < dimensiones.obtenerDimension() && numColumna >= 0 && numColumna < dimensiones.obtenerDimension()) {
                 tablero[numFila][numColumna] = true;
